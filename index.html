@@ -31,7 +31,7 @@
 		
 	</head>
 
-	<body onload="checkCookie()">
+	<body>
 		<div class="container">
 			<div class="row clearfix">
 				<div class="col-md-12 column">
@@ -57,6 +57,12 @@
 								
 								
 								<form class="navbar-form navbar-right" role="search">
+									
+									<div class="form-group">	
+							          <label  for="inNew">在新窗口中打开</label>
+									  <input id="inNew" type="checkbox" />
+									  &nbsp;&nbsp;
+							        </div>
 							        <div class="form-group">	
 							          <label  for="searchselect">默认搜索引擎</label>
 									  <select id="searchselect" onchange="" class="form-control">							  
@@ -64,6 +70,7 @@
 										  <option value="google">谷歌</option>
 										  <option value="sogou">搜狗</option>
 										  <option value="bing">必应</option>
+										  <option value="googlem">谷歌镜像</option>
 									  </select>
 							        </div>							        
 							     </form>
@@ -81,7 +88,7 @@
 					</div>
 
 				</div>
-				<form>
+				<form onsubmit="return false">
 				<div class="row clearfix">
 					<div class="col-md-2 column">
 					</div>
@@ -109,7 +116,7 @@
 						</div>
 					</div>
 
-				</div>
+				</div>				
 				</form>
 			</div>
 		</div>
@@ -160,12 +167,47 @@
 	</body>
 	<script type="text/javascript">
 		var content = "";
+		var inNew=getCookie("inNew");
+		var searcher=getCookie("searcher");
+		var state=getCookie("AD");
 
 		$(document).ready(function() {
+		
+		//广告开关
+		if (state!=""){
+			if(state=="false"){
+				$("#ad").hide();
+			}else{
+				$("#ad").show();
+			}			
+		}
+		else {				
+				setCookie("AD",true,30);
+				$("#ad").show();
+			}
 			
-			$("#content").val(getUrlParam("content"));
+		//默认搜索引擎
+		if(searcher==""){
+			setSearcher("baidu");			
+		}else{
+			setSearcher(searcher);			
+		}	
+			
+		//是否在新窗口打开	
+		if (inNew!=""){
+			if(inNew=="false"){
+				$("#inNew").attr("checked","true"); 
+			}else{
+				$("#inNew").removeAttr("checked"); 
+			}			
+		}		
+		setInNew();				
 
-			$(".jumbotron").click(function() {
+
+		});
+		
+		
+		   $(".jumbotron").click(function() {
 				$('#myModal').modal('show');
 			});			
 			
@@ -181,55 +223,65 @@
 			});
 			
 			$("#searchselect").change(function(){
-				setDefault($("#searchselect").val());				
+				setSearcher($("#searchselect").val());				
 			})
-
+			
+			$("#inNew").change(function(){
+				setInNew();			
+			})
+			
+			$("#content").keypress(function(event){				
+				if(event.keyCode == '13')
+				{
+					$("#"+searcher).trigger("click");
+				}
+			});
+				
+		
 			$("#baidu").click(function() {
 				getcontent();
-				window.open("http://www.baidu.com/s?wd=" + content, "_blank");
+				window.open("http://www.baidu.com/s?wd=" + content, inNew);
 			});
 
 			$("#google").click(function() {
 				getcontent();
-				window.open("http://www.google.com/search?q=" + content, "_blank");
+				window.open("http://www.google.com/search?q=" + content, inNew);
 			});
 
 			$("#sogou").click(function() {
 				getcontent();
-				window.open("https://www.sogou.com/web?query=" + content, "_blank");
+				window.open("https://www.sogou.com/web?query=" + content, inNew);
 			});
 
 			$("#bing").click(function() {
 				getcontent();
-				window.open("http://cn.bing.com/search?q=" + content, "_blank");
+				window.open("http://cn.bing.com/search?q=" + content, inNew);
 			});
 
 			$("#zhihu").click(function() {
 				getcontent();
-				window.open("https://www.zhihu.com/search?q=" + content, "_blank");
+				window.open("https://www.zhihu.com/search?q=" + content, inNew);
 			});
 
 			$("#panc").click(function() {
 				getcontent();
-				window.open("http://www.panc.cc/s/" + content + "/td_0", "_blank");
+				window.open("http://www.panc.cc/s/" + content + "/td_0", inNew);
 			});
 
 			$("#googlem").click(function() {
 				getcontent();
-				window.open("https://g3.impress.pw/search?q=" + content, "_blank");
+				window.open("https://g3.impress.pw/search?q=" + content, inNew);
 			});
 
 			$("#jd").click(function() {
 				getcontent();
-				window.open("http://search.jd.com/Search?enc=utf-8&keyword=" + content, "_blank");
+				window.open("http://search.jd.com/Search?enc=utf-8&keyword=" + content, inNew);
 			});
 
 			$("#taobao").click(function() {
 				getcontent();
-				window.open("https://s.taobao.com/search?q=" + content, "_blank");
+				window.open("https://s.taobao.com/search?q=" + content, inNew);
 			});
-
-		});
 		
 		 //获取url中的参数
         function getUrlParam(name) {
@@ -264,42 +316,26 @@
 		  }
 		return "";
 		}
+				
 		
-		//设定value为默认搜索引擎
-		function setDefault(value) {
-			$("button").attr("type","button");
-			$("#"+ value +"").attr("type","submit");
-			setCookie("default",value,30);
-			$("#searchselect").val(value);
+		//设定是否在新窗口中打开
+		function setInNew() {
+			setCookie("inNew",$("#inNew").is(':checked'),30);
+			inNew=$("#inNew").is(':checked')?"_blank":"_self";
 		}
 		
-		
-		function checkCookie(){
-		$("#ad").hide();
-		var state=getCookie("AD");
-		
-		if (state!=""){
-			if(state=="false"){
-				$("#ad").hide();
-			}else{
-				$("#ad").show();
-			}			
-		}
-		else {				
-				setCookie("AD",true,30);
-				$("#ad").show();
-			}
+		//设置默认搜索引擎
+		function setSearcher(value) {
+			searcher=value;
+			setCookie("searcher",value,30);
 		}
 		
-		var searcher=getCookie("default");
-		if(searcher==""){
-			setDefault("baidu");			
-		}else if(searcher==null){
-			setDefault("baidu");
-		}else{
-			setDefault(searcher);			
+		//执行搜索操作(回车键)
+		function doSearch() {
+			
+			return false;			
 		}
-		
+	
 
 	</script>
 
