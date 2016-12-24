@@ -195,7 +195,7 @@
 			
 		//是否在新窗口打开	
 		if (inNew!=""){
-			if(inNew=="false"){
+			if(inNew=="true"){
 				$("#inNew").attr("checked","true"); 
 			}else{
 				$("#inNew").removeAttr("checked"); 
@@ -329,13 +329,6 @@
 			searcher=value;
 			setCookie("searcher",value,30);
 		}
-		
-		//执行搜索操作(回车键)
-		function doSearch() {
-			
-			return false;			
-		}
-	
 
 	</script>
 
