@@ -30,7 +30,6 @@
 		<meta name="msapplication-TileImage" content="img/search_cat_72px.png"" />
 		
 	</head>
-
 	<body>
 		<div class="container">
 			<div class="row clearfix">
@@ -74,19 +73,19 @@
 									  </select>
 							        </div>							        
 							     </form>
-								
+								<p class="navbar-text navbar-right">
+								<a href="http://www.miitbeian.gov.cn/" class="navbar-link" title="辽ICP备15000815号-2">辽ICP备15000815号-2</a>
+				</p>
 								
 							</div>
 							<!-- /.navbar-collapse -->
 						</div>
 						<!-- /.container-fluid -->
 					</nav>
-
 					<div class="jumbotron text-center" style="background: transparent; height: 150px;">
 						<h1><small><b>Search.wangxinlei.cn</b></small></h1>
 						<p><small>不要点我</small></p>
 					</div>
-
 				</div>
 				<form onsubmit="return false">
 				<div class="row clearfix">
@@ -100,7 +99,6 @@
 					<div class="col-md-2 column">
 					</div>
 				</div>
-
 				<div class="row clearfix">
 					<div class="col-md-12 column text-center">
 						<div>
@@ -115,65 +113,25 @@
 							<button type="button" id="taobao" class="btn btn-warning">淘宝</button>
 						</div>
 					</div>
-
 				</div>				
 				</form>
-			</div>
-		</div>
-
-		<!-- Modal -->
-		<div class="modal fade " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-						<h4 class="modal-title" id="myModalLabel">使用说明</h4>
-					</div>
-					<div class="modal-body">
-						<b>输入要搜索的内容，点击下方按钮即可进行相应搜索~</b><br /><br /> 搜索产生的内容均与本站无关；
-						<br /> 谷歌搜索在国内不能正常使用；
-						<br /> 可使用谷歌镜像代替谷歌搜索；
-						<br /> 网盘搜索不稳定，请耐心等待。
-						<br />						
-
-					</div>
-					<div class="modal-footer">					
-						<a href="http://www.miitbeian.gov.cn/" class="pull-left" title="辽ICP备15000815号-2">辽ICP备15000815号-2</a>
-						<form class="form-inline" role="form">	
-						 
-						<button type="button" class="btn btn-primary" id="SwitchAD">神秘开关</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>	
-						</form> 
-					</div>
-				</div>
+				
 			</div>
 		</div>
 		
 		
-
-		<nav class="navbar navbar-default navbar-fixed-bottom" id="ad" role="navigation">
-			<div class="container">
-				<div class="ad">
-					<script type="text/javascript">
-						/*20:3 创建于 2016-01-11*/
-						var cpro_id = "u2487082";
-					</script>
-					<script src="http://cpro.baidustatic.com/cpro/ui/cm.js" type="text/javascript"></script>
-				</div>
-			</div>
-		</nav>
-
+		
 		</div>
 	</body>
 	<script type="text/javascript">
 		var content = "";
 		var inNew=getCookie("inNew");
 		var searcher=getCookie("searcher");
-		var state=getCookie("AD");
-
+		//var state=getCookie("AD");
 		$(document).ready(function() {
 		
 		//广告开关
+		/*
 		if (state!=""){
 			if(state=="false"){
 				$("#ad").hide();
@@ -185,6 +143,7 @@
 				setCookie("AD",true,30);
 				$("#ad").show();
 			}
+		*/
 			
 		//默认搜索引擎
 		if(searcher==""){
@@ -202,15 +161,9 @@
 			}			
 		}		
 		setInNew();				
-
-
 		});
 		
-		
-		   $(".jumbotron").click(function() {
-				$('#myModal').modal('show');
-			});			
-			
+			/*	  
 			$("#SwitchAD").click(function() {
 				var state=getCookie("AD");	
 				if(state=="true"){
@@ -221,6 +174,7 @@
 					$("#ad").show();
 				}				
 			});
+			*/
 			
 			$("#searchselect").change(function(){
 				setSearcher($("#searchselect").val());				
@@ -242,42 +196,34 @@
 				getcontent();
 				window.open("http://www.baidu.com/s?wd=" + content, inNew);
 			});
-
 			$("#google").click(function() {
 				getcontent();
 				window.open("http://www.google.com/search?q=" + content, inNew);
 			});
-
 			$("#sogou").click(function() {
 				getcontent();
 				window.open("https://www.sogou.com/web?query=" + content, inNew);
 			});
-
 			$("#bing").click(function() {
 				getcontent();
 				window.open("http://cn.bing.com/search?q=" + content, inNew);
 			});
-
 			$("#zhihu").click(function() {
 				getcontent();
 				window.open("https://www.zhihu.com/search?q=" + content, inNew);
 			});
-
 			$("#panc").click(function() {
 				getcontent();
 				window.open("http://www.panc.cc/s/" + content + "/td_0", inNew);
 			});
-
 			$("#googlem").click(function() {
 				getcontent();
 				window.open("https://g3.impress.pw/search?q=" + content, inNew);
 			});
-
 			$("#jd").click(function() {
 				getcontent();
 				window.open("http://search.jd.com/Search?enc=utf-8&keyword=" + content, inNew);
 			});
-
 			$("#taobao").click(function() {
 				getcontent();
 				window.open("https://s.taobao.com/search?q=" + content, inNew);
@@ -289,7 +235,6 @@
             var r = window.location.search.substr(1).match(reg); 
             if (r != null) return decodeURI(r[2]); return null;
         }
-
 		//获取输入框内容
 		function getcontent() {
 			content = $("#content").val()
@@ -326,12 +271,11 @@
 		
 		//设置默认搜索引擎
 		function setSearcher(value) {
-			searcher=value;
+			searcher=value;			
+			$("#searchselect").val(value); 
 			setCookie("searcher",value,30);
 		}
-
 	</script>
-
 	<script>
 	var _hmt = _hmt || [];
 	(function() {
@@ -341,6 +285,5 @@
 	  s.parentNode.insertBefore(hm, s);
 	})();
 	</script>
-
 	
 </html>
