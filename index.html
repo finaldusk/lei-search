@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 
 	<head>
@@ -84,7 +84,7 @@
 					</nav>
 					<div class="jumbotron text-center" style="background: transparent; height: 150px;">
 						<h1><small><b>Search.wangxinlei.cn</b></small></h1>
-						<p><small>不要点我</small></p>
+						
 					</div>
 				</div>
 				<form onsubmit="return false">
@@ -108,7 +108,7 @@
 							<button type="button" id="bing" class="btn btn-success">必应</button>
 							<button type="button" id="zhihu" class="btn btn-info">知乎</button>							
 							<button type="button" id="panc" class="btn btn-primary">网盘</button>
-							<button type="button" id="googlem" class="btn btn-info">谷歌镜像</button>
+							<button type="button" id="minecraft" class="btn btn-success">Minecraft</button>
 							<button type="button" id="jd" class="btn btn-danger">京东</button>
 							<button type="button" id="taobao" class="btn btn-warning">淘宝</button>
 						</div>
@@ -120,170 +120,158 @@
 		</div>
 		
 		
-		
-		</div>
+        <script type="text/javascript">
+                var content = "";
+                var inNew = getCookie("inNew");
+                var searcher = getCookie("searcher");
+                //var state=getCookie("AD");
+                $(document).ready(function () {
+
+                    //广告开关
+                    /*
+                    if (state!=""){
+                        if(state=="false"){
+                            $("#ad").hide();
+                        }else{
+                            $("#ad").show();
+                        }
+                    }
+                    else {
+                            setCookie("AD",true,30);
+                            $("#ad").show();
+                        }
+                    */
+
+                    //默认搜索引擎
+                    if (searcher == "") {
+                        setSearcher("baidu");
+                    } else {
+                        setSearcher(searcher);
+                    }
+
+                    //是否在新窗口打开
+                    if (inNew != "") {
+                        if (inNew == "true") {
+                            $("#inNew").attr("checked", "true");
+                        } else {
+                            $("#inNew").removeAttr("checked");
+                        }
+                    }
+                    setInNew();
+                });
+
+                /*
+                $("#SwitchAD").click(function() {
+                    var state=getCookie("AD");
+                    if(state=="true"){
+                        setCookie("AD",false,30);
+                        $("#ad").hide();
+                    }else{
+                        setCookie("AD",true,30);
+                        $("#ad").show();
+                    }
+                });
+                */
+
+                $("#searchselect").change(function () {
+                    setSearcher($("#searchselect").val());
+                })
+
+                $("#inNew").change(function () {
+                    setInNew();
+                })
+
+                $("#content").keypress(function (event) {
+                    if (event.keyCode == '13') {
+                        $("#" + searcher).trigger("click");
+                    }
+                });
+
+
+                $("#baidu").click(function () {
+                    getcontent();
+                    window.open("http://www.baidu.com/s?wd=" + content, inNew);
+                });
+                $("#google").click(function () {
+                    getcontent();
+                    window.open("http://www.google.com/search?q=" + content, inNew);
+                });
+                $("#sogou").click(function () {
+                    getcontent();
+                    window.open("https://www.sogou.com/web?query=" + content, inNew);
+                });
+                $("#bing").click(function () {
+                    getcontent();
+                    window.open("http://cn.bing.com/search?q=" + content, inNew);
+                });
+                $("#zhihu").click(function () {
+                    getcontent();
+                    window.open("https://www.zhihu.com/search?q=" + content, inNew);
+                });
+                $("#panc").click(function () {
+                    getcontent();
+                    window.open("http://www.panc.cc/s/" + content + "/td_0", inNew);
+                });
+                $("#minecraft").click(function () {
+                    getcontent();
+                    window.open("https://minecraft-zh.gamepedia.com/" + content, inNew);
+                });
+                $("#jd").click(function () {
+                    getcontent();
+                    window.open("http://search.jd.com/Search?enc=utf-8&keyword=" + content, inNew);
+                });
+                $("#taobao").click(function () {
+                    getcontent();
+                    window.open("https://s.taobao.com/search?q=" + content, inNew);
+                });
+
+                //获取url中的参数
+                function getUrlParam(name) {
+                    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                    var r = window.location.search.substr(1).match(reg);
+                    if (r != null) return decodeURI(r[2]); return null;
+                }
+                //获取输入框内容
+                function getcontent() {
+                    content = encodeURIComponent($("#content").val());
+                }
+
+                //设置名为cname值为cvalue存活期为exdays天的cookie
+                function setCookie(cname, cvalue, exdays) {
+                    var d = new Date();
+                    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+                    var expires = "expires=" + d.toGMTString();
+                    document.cookie = cname + "=" + cvalue + "; " + expires;
+                }
+
+                //获取名为cname的cookie值
+                function getCookie(cname) {
+                    var name = cname + "=";
+                    var ca = document.cookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i].trim();
+                        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+                    }
+                    return "";
+                }
+
+
+                //设定是否在新窗口中打开
+                function setInNew() {
+                    setCookie("inNew", $("#inNew").is(':checked'), 30);
+                    inNew = $("#inNew").is(':checked') ? "_blank" : "_self";
+                }
+
+                //设置默认搜索引擎
+                function setSearcher(value) {
+                    searcher = value;
+                    $("#searchselect").val(value);
+                    setCookie("searcher", value, 30);
+                }
+        </script>
+
 	</body>
-	<script type="text/javascript">
-		var content = "";
-		var inNew=getCookie("inNew");
-		var searcher=getCookie("searcher");
-		//var state=getCookie("AD");
-		$(document).ready(function() {
-		
-		//广告开关
-		/*
-		if (state!=""){
-			if(state=="false"){
-				$("#ad").hide();
-			}else{
-				$("#ad").show();
-			}			
-		}
-		else {				
-				setCookie("AD",true,30);
-				$("#ad").show();
-			}
-		*/
-			
-		//默认搜索引擎
-		if(searcher==""){
-			setSearcher("baidu");			
-		}else{
-			setSearcher(searcher);			
-		}	
-			
-		//是否在新窗口打开	
-		if (inNew!=""){
-			if(inNew=="true"){
-				$("#inNew").attr("checked","true"); 
-			}else{
-				$("#inNew").removeAttr("checked"); 
-			}			
-		}		
-		setInNew();				
-		});
-		
-			/*	  
-			$("#SwitchAD").click(function() {
-				var state=getCookie("AD");	
-				if(state=="true"){
-					setCookie("AD",false,30);	
-					$("#ad").hide();
-				}else{
-					setCookie("AD",true,30);
-					$("#ad").show();
-				}				
-			});
-			*/
-			
-			$("#searchselect").change(function(){
-				setSearcher($("#searchselect").val());				
-			})
-			
-			$("#inNew").change(function(){
-				setInNew();			
-			})
-			
-			$("#content").keypress(function(event){				
-				if(event.keyCode == '13')
-				{
-					$("#"+searcher).trigger("click");
-				}
-			});
-				
-		
-			$("#baidu").click(function() {
-				getcontent();
-				window.open("http://www.baidu.com/s?wd=" + content, inNew);
-			});
-			$("#google").click(function() {
-				getcontent();
-				window.open("http://www.google.com/search?q=" + content, inNew);
-			});
-			$("#sogou").click(function() {
-				getcontent();
-				window.open("https://www.sogou.com/web?query=" + content, inNew);
-			});
-			$("#bing").click(function() {
-				getcontent();
-				window.open("http://cn.bing.com/search?q=" + content, inNew);
-			});
-			$("#zhihu").click(function() {
-				getcontent();
-				window.open("https://www.zhihu.com/search?q=" + content, inNew);
-			});
-			$("#panc").click(function() {
-				getcontent();
-				window.open("http://www.panc.cc/s/" + content + "/td_0", inNew);
-			});
-			$("#googlem").click(function() {
-				getcontent();
-				window.open("https://g3.impress.pw/search?q=" + content, inNew);
-			});
-			$("#jd").click(function() {
-				getcontent();
-				window.open("http://search.jd.com/Search?enc=utf-8&keyword=" + content, inNew);
-			});
-			$("#taobao").click(function() {
-				getcontent();
-				window.open("https://s.taobao.com/search?q=" + content, inNew);
-			});
-		
-		 //获取url中的参数
-        function getUrlParam(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); 
-            var r = window.location.search.substr(1).match(reg); 
-            if (r != null) return decodeURI(r[2]); return null;
-        }
-		//获取输入框内容
-		function getcontent() {
-			content = $("#content").val()
-		}
-		
-		//设置名为cname值为cvalue存活期为exdays天的cookie
-		function setCookie(cname,cvalue,exdays)
-		{
-		var d = new Date();
-		d.setTime(d.getTime()+(exdays*24*60*60*1000));
-		var expires = "expires="+d.toGMTString();
-		document.cookie = cname + "=" + cvalue + "; " + expires;
-		}
-		
-		//获取名为cname的cookie值
-		function getCookie(cname)
-		{
-		var name = cname + "=";
-		var ca = document.cookie.split(';');
-		for(var i=0; i<ca.length; i++) 
-		  {
-		  var c = ca[i].trim();
-		  if (c.indexOf(name)==0) return c.substring(name.length,c.length);
-		  }
-		return "";
-		}
-				
-		
-		//设定是否在新窗口中打开
-		function setInNew() {
-			setCookie("inNew",$("#inNew").is(':checked'),30);
-			inNew=$("#inNew").is(':checked')?"_blank":"_self";
-		}
-		
-		//设置默认搜索引擎
-		function setSearcher(value) {
-			searcher=value;			
-			$("#searchselect").val(value); 
-			setCookie("searcher",value,30);
-		}
-	</script>
-	<script>
-	var _hmt = _hmt || [];
-	(function() {
-	  var hm = document.createElement("script");
-	  hm.src = "https://hm.baidu.com/hm.js?c4e2bbb0606f298d99bf4b36b96f5b14";
-	  var s = document.getElementsByTagName("script")[0]; 
-	  s.parentNode.insertBefore(hm, s);
-	})();
-	</script>
+
+
 	
 </html>
