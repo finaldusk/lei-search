@@ -1,0 +1,9 @@
+.contentWidth {
+  width: 90%;
+}
+
+@media screen and (min-width: 900px) {
+  .contentWidth {
+    width: 50%;
+  }
+}
